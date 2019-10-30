@@ -1,3 +1,4 @@
+from ddtrace import tracer
 from ddtrace.constants import ANALYTICS_SAMPLE_RATE_KEY
 from ddtrace.ext import http as http_tags
 from ddtrace.http import store_request_headers, store_response_headers
@@ -13,7 +14,8 @@ class TraceMiddleware:
     def __init__(
         self,
         app: ASGIApp,
-        tracer: Tracer,
+        *,
+        tracer: Tracer = tracer,
         service: str = "asgi",
         distributed_tracing: bool = True,
     ) -> None:
