@@ -1,10 +1,11 @@
-from ddtrace import tracer
+from typing import Optional
+
+from ddtrace import Tracer, tracer as global_tracer
 from ddtrace.constants import ANALYTICS_SAMPLE_RATE_KEY
 from ddtrace.ext import http as http_tags
 from ddtrace.http import store_request_headers, store_response_headers
 from ddtrace.propagation.http import HTTPPropagator
 from ddtrace.settings import config
-from ddtrace.tracer import Tracer
 from starlette.datastructures import Headers
 from starlette.requests import Request
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
@@ -15,11 +16,13 @@ class TraceMiddleware:
         self,
         app: ASGIApp,
         *,
-        tracer: Tracer = tracer,
+        tracer: Optional[Tracer] = None,
         service: str = "asgi",
         distributed_tracing: bool = True,
     ) -> None:
         self.app = app
+        if tracer is None:
+            tracer = global_tracer
         self.tracer = tracer
         self.service = service
         self._distributed_tracing = distributed_tracing
