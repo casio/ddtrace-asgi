@@ -75,7 +75,7 @@ An ASGI middleware that sends traces of HTTP requests to Datadog APM.
 **Parameters**
 
 - **app** - An [ASGI] application.
-- **tracer** - _(optional)_ A [`Tracer`] object. Defaults to the global `ddtracer.tracer` object.
+- **tracer** - _(optional)_ A [`Tracer`] object. Defaults to the global `ddtrace.tracer` object.
 - **service** - _(optional)_ Name of the service as it will appear on Datadog.
 - **distributed_tracing** - _(optional)_ Whether to enable [distributed tracing].
 
